@@ -56,7 +56,7 @@ class NaiveBayes(object):
         p_B += self.priori_B
         p_I += self.priori_I
         p_O += self.priori_O
-
+        
         for item in self.X:
             if item in self.features['B']:
                 p_B += self.features['B'][item]
