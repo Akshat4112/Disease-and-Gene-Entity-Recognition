@@ -13,9 +13,6 @@ def precisionrecall(y_pred: List[Any], y_true: List[Any]):
     w, h = 3, 3
     confusionmatrix = [[0 for i in range(w)] for j in range(h)]  
     
-    # h is outer list (rows), and expand each to the wth number
-    # we want to assign each position in the matrix to a specific class
-
     for i in range(len(y_pred)):  # i is the index in the data
         classpred = y_pred[i]
         classtruth = y_true[i]

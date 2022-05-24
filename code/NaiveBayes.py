@@ -1,12 +1,48 @@
 from collections import Counter
 import math
-
+import time
 class NaiveBayes(object):
     def __init__(self):
         return None
     
     def MultinomialNBTrain(self, X, y):
+        print("Named Entity Recognition using Naive Bayes Classifier.")
         print("Training Started...")
+
+        #Putting some Animation! 
+
+        animation = [
+        "[        ]",
+        "[=       ]",
+        "[===     ]",
+        "[====    ]",
+        "[=====   ]",
+        "[======  ]",
+        "[======= ]",
+        "[========]",
+        "[ =======]",
+        "[  ======]",
+        "[   =====]",
+        "[    ====]",
+        "[     ===]",
+        "[      ==]",
+        "[       =]",
+        "[        ]",
+        "[        ]"
+        ]
+
+        notcomplete = True
+
+        i = 0
+
+        while notcomplete:
+            print(animation[i % len(animation)], end='\r')
+            time.sleep(.1)
+            i += 1
+            if i == 1*1:
+                break
+
+
         self.X  = X
         self.y = y
         count_classes = Counter(y)
@@ -75,8 +111,8 @@ class NaiveBayes(object):
         max_index = results.index(max_value)
     #     print(max_index)
         if max_index == 0:
-            return "|I-DISEASE\n"
-        elif max_index == 1:
             return "|B-DISEASE\n"
+        elif max_index == 1:
+            return "|I-DISEASE\n"
         else:
             return "|O\n"
