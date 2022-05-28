@@ -32,8 +32,17 @@ print(y_pred[:10])
 print(y_true[:10])
 print(Xtest[:50])
 
-y_pred = ['|B-DISEASE\n', '|O\n', '|B-DISEASE\n', '|B-DISEASE\n', '|B-DISEASE\n', '|O\n', '|B-DISEASE\n', '|B-DISEASE\n', '|O\n', '|I-DISEASE\n', '|O\n', '|B-DISEASE\n', '|I-DISEASE\n', '|O\n']
-y_true = ['|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|B-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|O\n', '|B-DISEASE\n',  '|I-DISEASE\n', '|O\n']
+# y_pred = ['|B-DISEASE\n', '|O\n', '|B-DISEASE\n', '|I-DISEASE\n', '|B-DISEASE\n', '|O\n', '|B-DISEASE\n', '|B-DISEASE\n', '|O\n', '|I-DISEASE\n', '|O\n', '|B-DISEASE\n', '|I-DISEASE\n', '|O\n']
+# y_true = ['|B-DISEASE\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|B-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|O\n', '|B-DISEASE\n',  '|I-DISEASE\n', '|O\n']
+
+# y_true = ['|B-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|O\n']
+# y_pred = ['|B-DISEASE\n','|I-DISEASE\n', '|I-DISEASE\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n']
+
+# y_true = ['|B-DISEASE\n', '|B-DISEASE\n', '|B-DISEASE\n' , '|B-DISEASE\n', '|B-DISEASE\n' , '|B-DISEASE\n', '|B-DISEASE\n', '|B-DISEASE\n' ]
+
+# y_pred = [ '|O\n','|O\n','|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n']
+
+
 TP = 0 
 TN = 0
 FP = 0
@@ -63,18 +72,36 @@ for i in range(len(y_pred)):
 
         if (k==l):
             TP+=1
+        else:
+            FN+=1
         print("True Entity: ", entity_true)
         print("Pred Entity: ", entity_predicted)
         print("Label True: ", Label_True)
         print("Label Predicted: ", Label_Predicted)
+        LTsp = Label_True.split()
+        LPsp = Label_Predicted.split()
+        if Label_True !=Label_Predicted:
+            FP+=1
+                
+    elif y_true[i]!=y_pred[i] !='|B-DISEASE\n':
+        FN+=1
+    
     entity_true = ''
     entity_predicted = ''
     Label_True = ''
     Label_Predicted = ''
-print(TP)
+        
+print("TP: ", TP)
+print("FP: ", FP)
+print("FN: ", FN)
 
+Precision = TP/(TP+FP)
+Recall = TP/(TP+FN)
+F1 = (2 * Precision * Recall) / (Precision + Recall)
 
-
+print("Precision: ", Precision)
+print("Recall: ", Recall)
+print("F1-Score: ", F1)
 
 
 
