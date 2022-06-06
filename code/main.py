@@ -1,13 +1,17 @@
+#Import our custom classes for Preprocess, Naive Bayes, and Evaluation
+
 from Preprocess import Preprocess
 from NaiveBayes import NaiveBayes
-from Evaluation import precisionrecall
-from nltk import tokenize
+from Evaluation import PrecisionRecallEntityLevel, PrecisionRecall, PrecisionRecallEntityLevelGene
+
+# Streamlit is to create the Web App
 import streamlit as st
 
 train = '../data/ner-disease/train.iob'
 test = '../data/ner-disease/test.iob' 
 dev = '../data/ner-disease/dev.iob'
 dev_predicted = '../data/ner-disease/dev-predicted.iob'
+
 
 preprocess = Preprocess()
 preprocess.text_to_data(filepath=train)
@@ -23,111 +27,43 @@ for item in Xtest:
     pred = nb.MultinomialNBTest(item)
     y_pred.append(pred)
 
-precisionrecall(y_pred, y_true)
+print("Results for Disease Level NER:")
+PrecisionRecallEntityLevel(Xtest, y_pred, y_true)
 
-# We have y_true
-# We have y_pred
-print(len(y_pred))
-print(len(y_true))
-print(y_pred[:10])
-print(y_true[:10])
-print(Xtest[:50])
+# Training and Getting Entities for Gene Level Data
 
-# y_pred = ['|B-DISEASE\n', '|O\n', '|B-DISEASE\n', '|I-DISEASE\n', '|B-DISEASE\n', '|O\n', '|B-DISEASE\n', '|B-DISEASE\n', '|O\n', '|I-DISEASE\n', '|O\n', '|B-DISEASE\n', '|I-DISEASE\n', '|O\n']
-# y_true = ['|B-DISEASE\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|B-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|O\n', '|B-DISEASE\n',  '|I-DISEASE\n', '|O\n']
-
-# y_true = ['|B-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|I-DISEASE\n', '|O\n']
-# y_pred = ['|B-DISEASE\n','|I-DISEASE\n', '|I-DISEASE\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n']
-
-# y_true = ['|B-DISEASE\n', '|B-DISEASE\n', '|B-DISEASE\n' , '|B-DISEASE\n', '|B-DISEASE\n' , '|B-DISEASE\n', '|B-DISEASE\n', '|B-DISEASE\n' ]
-
-# y_pred = [ '|O\n','|O\n','|O\n', '|O\n', '|O\n', '|O\n', '|O\n', '|O\n']
+train = '../data/ner-gene/train.iob'
+test = '../data/ner-gene/test.iob' 
+dev = '../data/ner-gene/dev.iob'
+dev_predicted = '../data/ner-gene/dev-predicted.iob'
 
 
-TP = 0 
-TN = 0
-FP = 0
-FN = 0
+preprocess = Preprocess()
+preprocess.text_to_data(filepath=train)
+X, y = preprocess.preprocess_data()
+preprocess.text_to_data(filepath=test)
+Xtest, y_true = preprocess.preprocess_data()
 
-for i in range(len(y_pred)):
-    if y_true[i] == y_pred[i] == '|B-DISEASE\n':
-        j = i+1
-        z = i+1
-        k = 0
-        l = 0
-        entity_true = ''.join(Xtest[i]) 
-        entity_predicted = ''.join(Xtest[i]) 
-        Label_True = ''.join(y_true[i]) 
-        Label_Predicted = ''.join(y_pred[i]) 
-        while y_true[j] == '|I-DISEASE\n':
-            k+=1
-            j+=1
-            entity_true = entity_true + " " +  Xtest[j]
-            Label_True = Label_True+ ''+ y_true[j]
-        
-        
-        while y_pred[z] == '|I-DISEASE\n':
-            l+=1
-            z+=1
-            entity_predicted = entity_predicted + " " +  Xtest[z]
-            Label_Predicted = Label_Predicted+ ''+ y_pred[z]
+nb = NaiveBayes()
+nb.MultinomialNBTrainGene(X,y)
 
-        if (k==l):
-            TP+=1
-        else:
-            FN+=1
-        # print("True Entity: ", entity_true)
-        # print("Pred Entity: ", entity_predicted)
-        # print("Label True: ", Label_True)
-        # print("Label Predicted: ", Label_Predicted)
-        LTsp = Label_True.split()
-        LPsp = Label_Predicted.split()
-        if Label_True !=Label_Predicted:
-            FP+=1
-                
-    elif y_true[i]!=y_pred[i] !='|B-DISEASE\n':
-        FN+=1
-    
-    entity_true = ''
-    entity_predicted = ''
-    Label_True = ''
-    Label_Predicted = ''
-        
-# print("TP: ", TP)
-# print("FP: ", FP)
-# print("FN: ", FN)
+y_pred = []
+for item in Xtest:
+    pred = nb.MultinomialNBTestGene(item)
+    y_pred.append(pred)
+print("Results for Gene Level NER:")
+PrecisionRecallEntityLevelGene(Xtest, y_pred, y_true)
 
-Precision = TP/(TP+FP)
-Recall = TP/(TP+FN)
-F1 = (2 * Precision * Recall) / (Precision + Recall)
-
-print("Precision: ", Precision)
-print("Recall: ", Recall)
-print("F1-Score: ", F1)
-
-ct = ['Identification', 'of', 'APC2,', 'a', 'homologue', 'of', 'the', 'adenomatous', 'polyposis', 'coli', 'tumour', 'suppressor', '.', 'The', 'adenomatous', 'polyposis', 'coli', '(', 'APC', ')', 'tumour', '-suppressor', 'protein', 'controls', 'the', 'Wnt', 'signalling', 'pathway', 'by', 'forming', 'a', 'complex', 'with', 'glycogen', 'synthase', 'kinase', '3beta', '(', 'GSK-3beta', ')', ',', 'axin','conductin', 'and', 'betacatenin', '.', 'Complex', 'formation', 'induces']
-# tex = ' '.join(ct)
+st.title("NER for Disease and Gene")
+raw_text = st.text_area("Your Text","Enter Text Here")
+tokens = raw_text.split()
 custom_pred = []
 
-
-for item in ct:
-    pred = nb.MultinomialNBTest(item)
-    custom_pred.append(pred)
-print(custom_pred)
-
-
-
-
-# st.title("NER for Disease and Gene")
-# raw_text = st.text_area("Your Text","Enter Text Here")
-# tokens = raw_text.split()
-# custom_pred = []
-
-# if (st.button('Submit')):
-#     for item in tokens:
-#         pred = nb.MultinomialNBTest(item)
-#         custom_pred.append(pred)
-#     st.text(custom_pred)
+if (st.button('Submit')):
+    for item in tokens:
+        pred = nb.MultinomialNBTest(item)
+        custom_pred.append(pred)
+    st.text(custom_pred)
 
 
 
