@@ -2,6 +2,7 @@ from Preprocess import Preprocess
 from NaiveBayes import NaiveBayes
 from Evaluation import precisionrecall
 from nltk import tokenize
+import streamlit as st
 
 train = '../data/ner-disease/train.iob'
 test = '../data/ner-disease/test.iob' 
@@ -47,6 +48,7 @@ TP = 0
 TN = 0
 FP = 0
 FN = 0
+
 for i in range(len(y_pred)):
     if y_true[i] == y_pred[i] == '|B-DISEASE\n':
         j = i+1
@@ -74,10 +76,10 @@ for i in range(len(y_pred)):
             TP+=1
         else:
             FN+=1
-        print("True Entity: ", entity_true)
-        print("Pred Entity: ", entity_predicted)
-        print("Label True: ", Label_True)
-        print("Label Predicted: ", Label_Predicted)
+        # print("True Entity: ", entity_true)
+        # print("Pred Entity: ", entity_predicted)
+        # print("Label True: ", Label_True)
+        # print("Label Predicted: ", Label_Predicted)
         LTsp = Label_True.split()
         LPsp = Label_Predicted.split()
         if Label_True !=Label_Predicted:
@@ -91,9 +93,9 @@ for i in range(len(y_pred)):
     Label_True = ''
     Label_Predicted = ''
         
-print("TP: ", TP)
-print("FP: ", FP)
-print("FN: ", FN)
+# print("TP: ", TP)
+# print("FP: ", FP)
+# print("FN: ", FN)
 
 Precision = TP/(TP+FP)
 Recall = TP/(TP+FN)
@@ -103,29 +105,29 @@ print("Precision: ", Precision)
 print("Recall: ", Recall)
 print("F1-Score: ", F1)
 
+ct = ['Identification', 'of', 'APC2,', 'a', 'homologue', 'of', 'the', 'adenomatous', 'polyposis', 'coli', 'tumour', 'suppressor', '.', 'The', 'adenomatous', 'polyposis', 'coli', '(', 'APC', ')', 'tumour', '-suppressor', 'protein', 'controls', 'the', 'Wnt', 'signalling', 'pathway', 'by', 'forming', 'a', 'complex', 'with', 'glycogen', 'synthase', 'kinase', '3beta', '(', 'GSK-3beta', ')', ',', 'axin','conductin', 'and', 'betacatenin', '.', 'Complex', 'formation', 'induces']
+# tex = ' '.join(ct)
+custom_pred = []
+
+
+for item in ct:
+    pred = nb.MultinomialNBTest(item)
+    custom_pred.append(pred)
+print(custom_pred)
 
 
 
 
+# st.title("NER for Disease and Gene")
+# raw_text = st.text_area("Your Text","Enter Text Here")
+# tokens = raw_text.split()
+# custom_pred = []
+
+# if (st.button('Submit')):
+#     for item in tokens:
+#         pred = nb.MultinomialNBTest(item)
+#         custom_pred.append(pred)
+#     st.text(custom_pred)
 
 
 
-
-
-
-
-
-
-
-
-# TP = 0 
-# FP = 0
-# for i in range(len(y_true)):
-#     if y_true[i] == y_pred[i] == '|B-DISEASE\n' and y_true[i+1] !='|I-DISEASE':
-#         TP+=1
-#     elif y_true[i] == y_pred[i] == '|B-DISEASE\n' and y_true[i+1] =='|I-DISEASE'==y_pred[i+1]:
-#         TP+=1
-#     elif y_true[i] != y_pred[i] :
-#         FP+=1
-# print(TP)
-# print(FP)

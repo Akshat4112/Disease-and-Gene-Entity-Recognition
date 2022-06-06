@@ -49,11 +49,11 @@ def precisionrecall(y_pred: List[Any], y_true: List[Any]):
 
     tot_f1score_c = (f1score_c0 + f1score_c1 + f1score_c2) / 3
 
-    print("Precision and Recall...")
-    print("                          Precision                               Recall")
-    print("|B-DISEASE        "+ str(precision_c0)+"                   "+str(recall_c0))
-    print("|I-DISEASE        "+ str(precision_c1)+"                   "+str(recall_c1))
-    print("|O                "+ str(precision_c2)+"                   "+str(recall_c2))
+    # print("Precision and Recall...")
+    # print("                          Precision                               Recall")
+    # print("|B-DISEASE        "+ str(precision_c0)+"                   "+str(recall_c0))
+    # print("|I-DISEASE        "+ str(precision_c1)+"                   "+str(recall_c1))
+    # print("|O                "+ str(precision_c2)+"                   "+str(recall_c2))
 
     return "Evaluation Completed..."
 
