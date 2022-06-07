@@ -1,9 +1,6 @@
 import streamlit as st 
-import spacy_streamlit
 import spacy
 nlp = spacy.load('en_core_web_sm')
-import os
-from PIL import Image
 import pandas as pd
 
 #Load ML Model
@@ -19,7 +16,7 @@ def main():
             df['Tokens'] = tokens
             df['Entity'] = ['O\n', 'O\n',  'O\n' , 'O\n' , 'O\n'  , 'B-DISEASE\n']
             st.table(data=df)
-            
+
         elif raw_text == 'Patients with B-cell lymphomas are here':
             tokens = raw_text.split()
             st.text("Computing NER")    
