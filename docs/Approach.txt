@@ -1,0 +1,17 @@
+Baseline Method: Naive Bayes with Tokens
+
+Evaluation: Custom Designed over SPAN for NER
+
+Issue 1 : No Sequential Information, Example attached in PPT(add dependency point)
+Issue 2 : No POS Tags used as a feature, which provide valuable information about Entity
+Issue 3 : No Contextual Information as Naive Bayes is count based method(relation between tokens)
+
+Solution to Issue 1 : Use LSTM for Sequential Information
+Solution to Issue 2 : Use POS as a feature
+Solution to Issue 3 : Use CRF for getting Contextual Information
+
+Advanced Method: POS based CRF-LSTM Model to counter issues in the Baseline Model
+
+Run Evaluation again to see the improvement. 
+
+Research Question: What do Sequence models see in NER which can't be done by Naive Bayes? The reason behind it's amazing results.
