@@ -1,3 +1,10 @@
+''' 
+Project: Explaining LSTM-CRF models based NER Systems
+Version: 0.1
+Author: Akshat Gupta
+'''
+
+
 all_words = list(set(dfnew["Word"].values))
 all_tags = list(set(dfnew["Tag"].values))
 
@@ -132,84 +139,3 @@ tag_conf_matrix(matrix, 2)
 tag_conf_matrix(matrix, 3)
 
 #Another Implementation for Train
-
-from tqdm import tqdm, trange
-
-# data = pd.read_csv("/content/ner_dataset.csv", encoding="latin1").fillna(method="ffill")
-data = pd.read_csv("/content/DatasetTrain.csv", encoding="latin1").fillna(method="ffill")
-data.tail(10)
-
-words = list(set(data["Word"].values))
-n_words = len(words); n_words
-
-tags = list(set(data["Tag"].values))
-n_tags = len(tags); n_tags
-
-
-class SentenceGetter(object):
-    
-    def __init__(self, data):
-        self.n_sent = 1
-        self.data = data
-        self.empty = False
-        agg_func = lambda s: [(w, p, t) for w, p, t in zip(s["Word"].values.tolist(),
-                                                           s["POS"].values.tolist(),
-                                                           s["Tag"].values.tolist())]
-        self.grouped = self.data.groupby("Sentence").apply(agg_func)
-        self.sentences = [s for s in self.grouped]
-    
-    def get_next(self):
-        try:
-            s = self.grouped["Sentence: {}".format(self.n_sent)]
-            self.n_sent += 1
-            return s
-        except:
-            return None
-
-
-getter = SentenceGetter(data)
-sentences = getter.sentences
-
-
-labels = [[s[2] for s in sent] for sent in sentences]
-sentences = [" ".join([s[0] for s in sent]) for sent in sentences]
-sentences[0]
-print(labels[0])
-from collections import Counter
-from keras.preprocessing.sequence import pad_sequences
-
-word_cnt = Counter(data["Word"].values)
-vocabulary = set(w[0] for w in word_cnt.most_common(5000))
-max_len = 50
-word2idx = {"PAD": 0, "UNK": 1}
-word2idx.update({w: i for i, w in enumerate(words) if w in vocabulary})
-tag2idx = {t: i for i, t in enumerate(tags)}
-
-
-X = [[word2idx.get(w, word2idx["UNK"]) for w in s.split()] for s in sentences]
-
-
-X = pad_sequences(maxlen=max_len, sequences=X, padding="post", value=word2idx["PAD"])
-
-
-y = [[tag2idx[l_i] for l_i in l] for l in labels]
-
-y = pad_sequences(maxlen=max_len, sequences=y, padding="post", value=tag2idx["|O\n"])
-
-from sklearn.model_selection import train_test_split
-
-X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.1, shuffle=False)
-from keras.models import Model, Input
-from keras.layers import LSTM, Embedding, Dense, TimeDistributed, SpatialDropout1D, Bidirectional
-word_input = Input(shape=(max_len,))
-model = Embedding(input_dim=n_words, output_dim=50, input_length=max_len)(word_input)
-model = SpatialDropout1D(0.1)(model)
-model = Bidirectional(LSTM(units=100, return_sequences=True, recurrent_dropout=0.1))(model)
-out = TimeDistributed(Dense(n_tags, activation="softmax"))(model)
-model = Model(word_input, out)
-model.compile(optimizer="rmsprop",
-              loss="sparse_categorical_crossentropy",
-              metrics=["accuracy"])
-history = model.fit(X_tr, y_tr.reshape(*y_tr.shape, 1),
-                    batch_size=32, epochs=5,
-                    validation_split=0.1, verbose=1)

@@ -1,3 +1,10 @@
+''' 
+Project: Explaining LSTM-CRF models based NER Systems
+Version: 0.1
+Author: Akshat Gupta
+'''
+
+
 #Import our custom classes for Preprocess, Naive Bayes, and Evaluation
 
 from Preprocess import Preprocess

@@ -1,3 +1,10 @@
+''' 
+Project: Explaining LSTM-CRF models based NER Systems
+Version: 0.1
+Author: Akshat Gupta
+'''
+
+
 from eli5.lime import TextExplainer
 from eli5.lime.samplers import MaskingTextSampler
 

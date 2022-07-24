@@ -1,3 +1,10 @@
+''' 
+Project: Explaining LSTM-CRF models based NER Systems
+Version: 0.1
+Author: Akshat Gupta
+'''
+
+
 # Importing important libraries
 from collections import Counter  #for counting items in the list and store them as a dict
 import math  #for performing mathematical operations

@@ -1,3 +1,9 @@
+''' 
+Project: Explaining LSTM-CRF models based NER Systems
+Version: 0.1
+Author: Akshat Gupta
+'''
+
 sentence = "Identification of APC2, a homologue of the adenomatous polyposis coli tumour suppressor."
 
 re_tok = re.compile(f"([{string.punctuation}“”¨«»®´·º½¾¿¡§£₤‘’])")

@@ -1,5 +1,13 @@
-from typing_extensions import Self
+''' 
+Project: Explaining LSTM-CRF models based NER Systems
+Version: 0.1
+Author: Akshat Gupta
+'''
 
+
+from typing_extensions import Self
+import pandas as pd
+import nltk
 
 class Preprocess():
     def __init__(self):
@@ -13,54 +21,44 @@ class Preprocess():
         for line in file.readlines():
             self.data.append(line)
         
-    
     def preprocess_data(self):
-        X = []
-        y = []
+        self.X = []
+        self.y = []
 
         for item in self.data:
             temp = item.split('\t')
             if len(item) > 1:
-                X.append(temp[0])
-                y.append(temp[1])
-        return X, y 
+                self.X.append(temp[0])
+                self.y.append(temp[1])
+        print("Preprocess Completed...")
+        print("Now Creating Dataframe...")
+        
 
+    def create_dataframe(self):
+        self.df = pd.DataFrame(columns=['Sentence', 'Word', 'POS', 'Tag'])
+        self.df['Word'] = self.X
+        self.df['Tag'] = self.y
 
-train = '/content/train.iob'
-test = '/content/test.iob' 
-dev = '/content/dev.iob'
-dev_predicted = '/content/dev-predicted.iob'
+        for i in range(len(self.df['Word'])):
+            item = self.df['Word'][i]
+            tag = nltk.pos_tag([item])
+            self.df['POS'][i] = tag[0][1]
 
+        self.df['Sentence'][0] = 'Sentence: '+ str(1)
+        k = 2
 
-preprocess = Preprocess()
-preprocess.text_to_data(filepath=train)
-X, y = preprocess.preprocess_data()
-preprocess.text_to_data(filepath=test)
-Xtest, y_true = preprocess.preprocess_data()
+        for i in range(len(self.df['Word'])):
+            if self.df['Word'][i] == '.':
+                self.df['Sentence'][i+1] = 'Sentence: ' + str(k)
+                k+=1        
 
+        self.dfnew = self.df.copy()
+        self.dfnew = self.dfnew.fillna(method="ffill")
+        self.dfnew["Sentence"] = self.dfnew["Sentence"].apply(lambda s: s[9:])
+        # dfnew["Sentence"] = dfnew["Sentence"].astype("int32")
+        print(self.dfnew.head())
+        print("DataFrame Created...")
 
-df = pd.DataFrame(columns=['Sentence', 'Word', 'POS', 'Tag'])
-df['Word'] = X
-df['Tag'] = y
-
-for i in range(len(df['Word'])):
-    item = df['Word'][i]
-    tag = nltk.pos_tag([item])
-    df['POS'][i] = tag[0][1]
-
-df['Sentence'][0] = 'Sentence: '+ str(1)
-k = 2
-
-for i in range(len(df['Word'])):
-    if df['Word'][i] == '.':
-        df['Sentence'][i+1] = 'Sentence: ' + str(k)
-        k+=1        
-
- dfnew = df.copy()
-
-        dfnew = dfnew.fillna(method="ffill")
-dfnew["Sentence"] = dfnew["Sentence"].apply(lambda s: s[9:])
-# dfnew["Sentence"] = dfnew["Sentence"].astype("int32")
-dfnew.head()
-
-# dfnew.to_csv('../input/ner-disease/DatasetTrain.csv')
+    def dump_csv(self):
+        self.dfnew.to_csv('../data/dfnew.csv')
+        print("CSV Dumped in data Directory")

@@ -1,3 +1,10 @@
+''' 
+Project: Explaining LSTM-CRF models based NER Systems
+Version: 0.1
+Author: Akshat Gupta
+'''
+
+
 # Importing important libraries
 import numpy as np
 from collections import Counter
