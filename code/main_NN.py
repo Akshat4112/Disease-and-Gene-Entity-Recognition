@@ -41,3 +41,4 @@ getData.LSTM_NN()
 print("Trainign NN is completed...")
 getData.Training_Plots()
 print("Curves Plotted and Stored in the Directory...")
+

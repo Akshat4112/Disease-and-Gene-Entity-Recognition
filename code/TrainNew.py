@@ -2,6 +2,7 @@ import pandas as pd
 from collections import Counter
 import time
 import wandb
+import pickle
 from wandb.keras import WandbCallback
 wandb.init(project="GALE_LIME_NER_LSTM_CRF_DISEASE", entity="robofied")
 
@@ -42,6 +43,13 @@ class NeuralNetwork(object):
         word2idx = {"PAD": 0, "UNK": 1}
         word2idx.update({w: i for i, w in enumerate(self.words) if w in vocabulary})
         tag2idx = {t: i for i, t in enumerate(self.tags)}
+
+        #Saving word2idx, tag2idx for later use
+        with open('../data/word2idx.pkl', 'wb') as f:
+            pickle.dump(word2idx, f)
+        
+        with open('../data/tag2idx.pkl', 'wb') as f:
+            pickle.dump(tag2idx, f)
 
         X = [[word2idx.get(w, word2idx["UNK"]) for w in s.split()] for s in sentences]
         X = pad_sequences(maxlen=self.max_len, sequences=X, padding="post", value=word2idx["PAD"])
