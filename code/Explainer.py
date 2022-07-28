@@ -4,13 +4,14 @@ Version: 0.1
 Author: Akshat Gupta
 '''
 
-
 import pickle
 from eli5.lime import TextExplainer
 from eli5.lime.samplers import MaskingTextSampler
 from tensorflow.keras.utils import pad_sequences
 from tensorflow import keras
 import eli5
+import pandas as pd
+import ast
 
 class NERExplainerGenerator(object):
     
@@ -54,81 +55,84 @@ sampler = MaskingTextSampler(
     bow=False
 )
 
-text = 'PCR amplification from genomic DNA and automated sequencing of the entire coding region ( 66 exons ) and splice junctions detected 77 mutations ( 85 % ) in 90 A-T chromosomes .'
-
-samples, similarity = sampler.sample_near(text, n_samples=4)
-print(samples)
-te = TextExplainer(
-    sampler=sampler,
-    position_dependent=True,
-    random_state=42
-)
-
-clf = te.fit(text, predict_func)
-
-explaination = te.explain_prediction(target_names=list(explainer_generator.idx2tag.values()),top_targets=3)
-print("Explaination is: ", type(explaination))
-exp = eli5.formatters.format_as_dict(explaination)
-print(exp.keys())
-
-# max_len = 114
-# explainer_generator = NERExplainerGenerator(model, word2idx, tag2idx, max_len)
-# word_index = 2
-# predict_func = explainer_generator.get_predict_function(word_index=word_index)
-# sampler = MaskingTextSampler(
-#     replacement="UNK",
-#     max_replace=0.7,
-#     token_pattern=None,
-#     bow=False
-# )
-
-# explainer = {
-#             'B-DISEASE': [],
-#             'I-DISEASE': [],
-#             'O': []
-#             }
-
-# def explanation_for_sentence(sentence_text):
-
-#     # get class with max probability for the word
-#     # save word and class in the dict for a sentence 
-#     # we will get class to word mappings
-
-#     samples, similarity = sampler.sample_near(sentence_text, n_samples=4)
-#     print(samples)
-#     te = TextExplainer(
-#         sampler=sampler,
-#         position_dependent=True,
-#         random_state=42
-#     )
-#     clf = te.fit(sentence_text, predict_func)
-#     explaination = te.explain_prediction(target_names=list(explainer_generator.idx2tag.values()),top_targets=3)
-#     print("Explaination is: ", explaination)
+def explaination_generator(text):
+    samples, similarity = sampler.sample_near(text, n_samples=4)
+    print("Input is: ",samples)
+    print("Fitting Explainer...")
+    print("----------------------------------------------")
+    te = TextExplainer(sampler=sampler,position_dependent=True,random_state=42)
     
+    word_importance = {}
+    word_importance["B"] = []
+    word_importance["I"] = []
+    word_importance["O"] = []
 
+    try:
+        clf = te.fit(text, predict_func)
+        explaination = te.explain_prediction(target_names=list(explainer_generator.idx2tag.values()),top_targets=3)
+        exp = eli5.formatters.format_as_dict(explaination)
+        features = exp['targets']
+        print("----------------------------------------------")
+        print("Model Fitting Completed")
+  
+        for item in features:
+            for ite in item['feature_weights']['pos']:
+                word = ite['feature'].split()
+                del(word[0])
+                word = ''.join(word)
+                if item['target'] == '|B-DISEASE\n':
+                    word_importance["B"].append(word)           
+                elif item['target'] == '|I-DISEASE\n':
+                    word_importance["I"].append(word)           
+                elif item['target'] == '|O\n':
+                    word_importance["O"].append(word)           
+    except Exception as e:
+        print(e)
 
-# def get_explaination(sentID):
-#   explainer = []
-#   index = sentID
-#   label = labels[index]
-#   text = sentences[index]
-#   print(text, label)
-#   explainer_generator = NERExplainerGenerator(model, word2idx, tag2idx, max_len)
-#   for wi in range(len(str(text))):
-#     word_index = wi
-#     predict_func = explainer_generator.get_predict_function(word_index=word_index)
+        # for ite in item['feature_weights']['neg']:
+        #     word = ite['feature'].split()
+        #     del(word[0])
+        #     word = ''.join(word)
+        #     if item['target'] == '|B-DISEASE\n':
+        #         word_importance["B"].append(word)           
+        #     elif item['target'] == '|I-DISEASE\n':
+        #         word_importance["I"].append(word)           
+        #     elif item['target'] == '|O\n':
+        #         word_importance["O"].append(word)           
+    return word_importance
 
-#     sampler = MaskingTextSampler(replacement="UNK",max_replace=0.7,token_pattern=None,bow=False)
+#Loading the data from dataframe
+df = pd.read_csv('../data/ner-disease/DatasetTrain.csv')
+print(df.head())
+sentences = []
+temp = []
 
-#     samples, similarity = sampler.sample_near(text, n_samples=4)
-#     print(samples)
+for i in range(len(df['Word']) -1):
+    if df['Sentence'][i] == df['Sentence'][i+1]:
+        temp.append(df['Word'][i])
+    elif df['Sentence'][i] != df['Sentence'][i+1]:
+        sent_temp = ''.join(str(temp))
+        
+        sentences.append(sent_temp)
+        temp = []
+    
+    
+# print(sentences) 
 
-#     te = TextExplainer(sampler=sampler,position_dependent=True,random_state=42)
+df_sents = pd.DataFrame(columns=['sentences'])
+df_sents['sentences'] =  sentences
+df_sents.to_csv('../data/ner-disease/sentences.csv')
 
-#     clf = te.fit(text, predict_func)
+words_final = []
+for item in df_sents['sentences']:
+    refined_sentence = ast.literal_eval(item)
+    final_sentece = ' '.join(refined_sentence)
 
-#     explaination = te.explain_prediction(target_names=list(explainer_generator.idx2tag.values()),top_targets=3)
-#     explainer.append(explaination)
-#   return explainer
-# sentID = 2000
-# explain = get_explaination(sentID)
+    # text = 'PCR amplification from genomic DNA and automated sequencing of the entire coding region ( 66 exons ) and splice junctions detected 77 mutations ( 85 % ) in 90 A-T chromosomes .'        
+    wi = explaination_generator(final_sentece)
+    print(wi)
+    words_final.append(wi)
+
+words_df = pd.DataFrame(columns=['dicts'])
+words_df['dicts'] = words_final
+words_df.to_csv('../data/ner-disease/words_dicts.csv')
