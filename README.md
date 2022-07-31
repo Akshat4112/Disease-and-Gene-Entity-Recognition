@@ -3,7 +3,7 @@
 
 The project was developed by Akshat Gupta and Silvia Cunico with the help of Prof. Roman Klinger, from the University of Stuttgart.
 The program has 4 main purposes:
-- Recognizing disease entities in text documents and labeling them according to the BIO system
+- Recognizing disease entities in text documents and labeling them according to the BIO tags
 - Evaluating pre-trained models with test dataset 
 - Training new models with given corpora that follow the NCBI format
 - Interpreting the model's predictions with the LIME and GALE approximation techniques
@@ -18,37 +18,36 @@ If you have any questions or problems, please e-mail **akshat.gupta , silvia.cun
 Installation
 ---------------
 
-This program was developed using Python version 3.5 and was tested on Linux and Windows system.
-We recommend using Anaconda 4.2 for installing **Python 3.5** as well as **numpy**, although you can install them by other means.
+This program was developed using Python version 3.9.6 and was tested on Linux and Windows system.
+We recommend using Anaconda 4.2 for installing **Python 3.9** as well as **numpy**, although you can install them by other means.
 
 Other requirements:
 
-1. **Tensorflow** GPU 1.4.0:
+1. **Tensorflow** GPU 2.7.0:
 
-> pip install tensorflow-gpu==1.4.0
+> pip install tensorflow-gpu==2.7.0
 
 If GPU is not available, tensorflow CPU can be used instead:
-> pip install tensorflow==1.4.0
+> pip install tensorflow==2.7.0
 
-2. **Keras** 2.1.1:
-> pip install Keras==2.1.1
+2. **Keras** 2.9.0:
+> pip install Keras==2.9.0
 
-3. **Sklearn** 0.19.1:
-> conda install scikit-learn==0.19.1
+3. **Sklearn** 0.21.0:
+> conda install scikit-learn==0.21.0
 
 4. **NLTK** 3.2.5:
 > conda install nltk==3.2.5
 
-5. **SpaCy** 1.9:
-> conda install spacy==1.9
+5. **Eli5**:
+Currently it requires scikit-learn 0.18+
+> pip install elif5 
+> conda install -c conda-forge eli5
 
-and spaCy model:
-> python -m spacy download en_core_web_md
+6. ****:
 
-6. **Ab3P**:
-
-  Running the D3NER program, re-training models or evaluating the pre-trained models on the included corpora does not require Ab3P to be installed because its result has been prepared in the "ab3p_tfidf.pickle" file within each corpus.
-On the other hand, if you wish to train a new model with different corpora, installation instruction, and usage of Ab3P is available at https://github.com/ncbi-nlp/Ab3P
+Running the program, re-training models or evaluating the pre-trained models on the included corpora does not require    to be installed because its result has been prepared in the "ab3p_tfidf.pickle" file within each corpus.
+On the other hand, if you wish to train a new model with different corpora, installation instruction, and usage of  is available at https://github.com/
 
 Usage
 ---------
@@ -58,13 +57,13 @@ The program was written so that it can run for any type of entity. All the entit
 ><Entity type 2>
 ><...>
 >```
-#### **Recognize named entities in text documents**
+#### **Recognize disease entities in text documents and labeling them according to the BIO tags**
 Command:
 
     python main.pyc -h
     usage: main.pyc [-h] model dataset input_file output_file
 
-    D3NER Program: Recognize biomedical entities in text documents.
+    Disease Entities classifier: Recognize disease entities in text documents and interpreting predictions
 
     positional arguments:
       model        the name of the model being used, i.e: d3ner_cdr
