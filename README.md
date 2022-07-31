@@ -1,19 +1,17 @@
-**Interpreting Bidirectional-LSTM-CRF model for Diseases' Entities Recognition**
+**Interpreting Bidirectional-LSTM-CRF model for Disease Entities Recognition**
 ================
 
-The project was developed by Akshat Gupta and Silvia Cunico with the help of Prof. Roman Klinger, from the University of Stuttgart.
-The program has 4 main purposes:
-- Recognizing disease entities in text documents and labeling them according to the BIO tags
-- Evaluating pre-trained models with test dataset 
-- Training new models with given corpora that follow the NCBI format
-- Interpreting the model's predictions with the LIME and GALE approximation techniques
+The project was developed by Akshat Gupta and Silvia Cunico undet the guidance of Prof. Roman Klinger, from the University of Stuttgart.
+The program has 2 main purposes:
+- Recognizing disease entities in text documents and labeling them according to the BIO labels.
+- Interpreting the model's predictions with the LIME and GALE approximation techniques to explain LSTM CRF model. 
 
 ----------
 
 Contacts
 ------------
 
-If you have any questions or problems, please e-mail **akshat.gupta , silvia.cunico {@ims.uni-stuttgart.de}**
+If you have any questions or problems, please e-mail **st180429@stud.uni-stuttgart.de , st179785@stud.uni-stuttgart.de**
 
 Installation
 ---------------
@@ -25,29 +23,16 @@ Other requirements:
 
 1. **Tensorflow** GPU 2.7.0:
 
-> pip install tensorflow-gpu==2.7.0
-
 If GPU is not available, tensorflow CPU can be used instead:
 > pip install tensorflow==2.7.0
 
 2. **Keras** 2.9.0:
-> pip install Keras==2.9.0
-
 3. **Sklearn** 0.21.0:
-> conda install scikit-learn==0.21.0
-
 4. **NLTK** 3.2.5:
-> conda install nltk==3.2.5
-
 5. **Eli5**:
+
 Currently it requires scikit-learn 0.18+
-> pip install elif5 
 > conda install -c conda-forge eli5
-
-6. ****:
-
-Running the program, re-training models or evaluating the pre-trained models on the included corpora does not require    to be installed because its result has been prepared in the "ab3p_tfidf.pickle" file within each corpus.
-On the other hand, if you wish to train a new model with different corpora, installation instruction, and usage of  is available at https://github.com/
 
 Usage
 ---------
@@ -60,37 +45,18 @@ The program was written so that it can run for any type of entity. All the entit
 #### **Recognize disease entities in text documents and labeling them according to the BIO tags**
 Command:
 
-    python main.pyc -h
-    usage: main.pyc [-h] model dataset input_file output_file
-
+    python main_NN.py
+    
     Disease Entities classifier: Recognize disease entities in text documents and interpreting predictions
 
-    positional arguments:
-      model        the name of the model being used, i.e: d3ner_cdr
-      dataset      the name of the dataset that the model was trained on, i.e: cdr
-      input_file   path to the input file, i.e: data/cdr/cdr_test.txt
-      output_file  path to the output file, i.e: output.txt
-
-    optional arguments:
-      -h, --help   show this help message and exit
-
 > **Note:**
-> - "model" is the direct child folder within the "pre_trained_models/" folder
-> - "dataset" is the direct child folder within the "data/" folder
-> - "input_file" is the path to the file that contains one or more text document(s) that each follows the below format: 
->```
-><id>|t|<text>
-><id>|a|<text>
->```
-> which `<id>` and `<text>` can be replaced with appropriate information. Noting that this format is similar to the BioCreative V format but the annotation part is unnecessary and it does not matter whether included or not.
-
-Example: Running the CDR test file with the model trained on CDR corpus and write the result to output.txt file
-
-    python main.pyc d3ner_cdr cdr data/cdr/cdr_test.txt output.txt
+> - "model" is the direct child folder within the "models/" folder
+> - "dataset" is the direct child folder within the "dataset/" folder
 
 #### **Evaluating pre-trained models**
 
 > **Important Note:** The pre-trained models we included with the program were trained on Windows system. For that reason, evaluating those models on different OSs might give very different results.
+
 > Evaluating on Windows will give these results:
 > - For the BioCreative V CDR dataset:
 >```
@@ -103,31 +69,6 @@ Example: Running the CDR test file with the model trained on CDR corpus and writ
 >                P       R       F1
 >        Dis:    86.72   86.35   86.53
 >```
-
-Command:
-
-    python -m train.evaluate -h
-    usage: evaluate.pyc [-h] [-cf] model dataset test_set
-
-    Evaluate trained model.
-
-    positional arguments:
-      model                 the name of the model being used, i.e: d3ner_cdr
-      dataset               the name of the dataset that the model will be trained on, i.e: cdr
-      test_set              path to the test dataset, i.e: data/cdr/cdr_test.txt
-
-    optional arguments:
-      -h, --help            show this help message and exit
-      -cf, --confusion_matrix
-                            report confusion matrix
-
-> **Note:**
-> - "model" is the direct child folder within the "pre_trained_models/" folder
-> - "dataset" is the direct child folder within the "data/" folder
-
-Example: Evaluating the model trained on CDR corpus using CDR test data and also report the confusion matrix
-
-    python -m train.evaluate d3ner_cdr cdr data/cdr/cdr_test.txt -cf
 
 #### **Training new models**
 [**Step 0** - Download the pre-trained word embedding model]
