@@ -55,7 +55,7 @@ class NeuralNetwork(object):
         X = pad_sequences(maxlen=self.max_len, sequences=X, padding="post", value=word2idx["PAD"])
         y = [[tag2idx[l_i] for l_i in l] for l in labels]
         y = pad_sequences(maxlen=self.max_len, sequences=y, padding="post", value=tag2idx["|O\n"])
-        self.X_tr, self.X_te, self.y_tr, self.y_te = train_test_split(X, y, test_size=0.1, shuffle=False)
+        self.X_tr, self.X_te, self.y_tr, self.y_te = train_test_split(X, y, test_size=0.2, shuffle=False)
         print("Completed till split")
     
     def LSTM_NN(self):
@@ -71,7 +71,7 @@ class NeuralNetwork(object):
         model = keras.Model(word_input, out)
         opt = keras.optimizers.Adam(learning_rate = 0.001)
         model.compile(optimizer=opt, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
-        self.history = model.fit(self.X_tr, self.y_tr.reshape(*self.y_tr.shape, 1), batch_size=32, epochs=5, validation_split=0.2, verbose=1, callbacks=[WandbCallback()])
+        self.history = model.fit(self.X_tr, self.y_tr.reshape(*self.y_tr.shape, 1), batch_size=32, epochs=20, validation_split=0.2, verbose=1, callbacks=[WandbCallback()])
         name = '../models/' + 'ckpt' +str(time.time()) + '.h5'
         model.save(name)
         print("Model saved in model directory...")
