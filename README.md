@@ -75,7 +75,7 @@ If you may wish to create plots of the accuracy and losses of your models, pleas
 ### Usage
 ---------
 The program was written so that it can run to distinguish "DISEASE" entities from other entities with the highest accuracy.
-To reach such training accuracy (99,82) and validation accuracy (99,29%) we implemented: 
+To reach such training accuracy (99,82%) and validation accuracy (99,29%) we implemented: 
 
 1. A baseline method following the Naive Bayes algorithm to train and test;
 2. An advanced method with a Bidirectional-LSTM-CRF model with BioBERT Embeddings. 
@@ -85,11 +85,13 @@ To reach such training accuracy (99,82) and validation accuracy (99,29%) we impl
 
 ##### _A baseline method following the Naive Bayes algorithm to train and test_
 
+Command:
 ```
    python NaiveBayes.py
 ```
 To run the Naive Bayes generative classifier.
 
+Command:
 ```
    python Evaluation.py
 ```
@@ -97,7 +99,7 @@ To evaluate the Naive Nayes classifier's B, I, O labels predictions.
 
 ##### _An advanced method with a Bidirectional-LSTM-CRF model with BioBERT Embeddings_
 
-Command
+Command:
 ```
    python main_NN.py
 ```
@@ -110,7 +112,7 @@ Before running the command:
 
 #### **Interpreting the model's predictions with the LIME and GALE approximation techniques to explain the BI-LSTM CRF model**
 
-Command
+Command:
 ```
    python Explainer.py
 ```
@@ -125,3 +127,7 @@ Command
 ------------
 
 If you have any questions or problems, please e-mail **st180429@stud.uni-stuttgart.de , st179785@stud.uni-stuttgart.de**
+
+------------
+
+:wave:
