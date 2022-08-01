@@ -1,7 +1,7 @@
 **Interpreting Bidirectional-LSTM-CRF model for Disease Entities Recognition**
 ================
 
-The project was developed by Akshat Gupta and Silvia Cunico undet the guidance of Prof. Roman Klinger, from the University of Stuttgart.
+The project was developed by Akshat Gupta and Silvia Cunico under the guidance of Prof. Roman Klinger, from the University of Stuttgart.
 The program has 2 main purposes:
 - Recognizing disease entities in text documents and labeling them according to the BIO labels
 - Interpreting the model's predictions with the LIME and GALE approximation techniques to explain the BI-LSTM CRF model
@@ -20,7 +20,9 @@ If you have any questions or problems, please e-mail **st180429@stud.uni-stuttga
 This program was developed using Python version 3.9.6 and was tested on Linux and Windows system.
 We recommend using Anaconda 4.2 for installing **Python 3.9** as well as **numpy**, although you can install them by other means.
 
-Other requirements:
+If you wish to run the code, you can install the dependencies from the requirements.txt file.
+
+    pip install -r requirements.txt
 
 1. **Tensorflow** GPU 2.7.0:
 
@@ -49,7 +51,8 @@ O      O     O      O           O       B-DISEASE     I-DISEASE     I-DISEASE
 
 ## Usage
 ---------
-The program was written so that it can run for any type of entity. All the entity types presented in the data set must be 
+The program was written so that it can run to distinguish "DISEASE" entities from other entities.  
+The NaiveBayes.py contains our Naive Bayes algorithm, a probabilistic and generative classifier, trained on 
 ```
 
 
