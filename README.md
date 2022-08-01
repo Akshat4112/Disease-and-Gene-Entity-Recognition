@@ -73,8 +73,9 @@ If you may wish to create plots of the accuracy and losses of your models, pleas
 ---------
 The program was written so that it can run to distinguish "DISEASE" entities from other entities with the highest accuracy.
 To reach such training accuracy (99,82) and validation accuracy (99,29%) we implemented: 
-    1. A baseline method following the Naive Bayes algorithm to train and test;
-    2. An advanced method with a Bidirectional-LSTM-CRF model with BioBERT Embeddings. 
+
+1. A baseline method following the Naive Bayes algorithm to train and test;
+2. An advanced method with a Bidirectional-LSTM-CRF model with BioBERT Embeddings. 
 
 
 #### **Recognize disease entities in text documents and labeling them according to the BIO tags**
