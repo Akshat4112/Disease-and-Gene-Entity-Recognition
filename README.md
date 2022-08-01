@@ -54,25 +54,34 @@ After training a model:
 ## Datasets
 ------------
 
+The dataset used to train our models was provided to us internally from the University stuff, for the purpose of developing this project.
+
+If you may wish to use the code you can provide a dataset with the same format so that it will be processed regularly and written as a pandas DataFrame in a CSV file. 
+The format we refer to follows roughly the CoNLL 2003 format for NER task (https://aclanthology.org/W03-0419.pdf): the data file must contain one word per line. At the end of each line a tag must state whether the current word is part of a named entity or not. In our case the fields in a line must be two, the word and its entity tag. The part of-speech tag and the chunk tag are not part of the required fields. It is essential that the two required fields are tab-separated.
 
 
 
 ## Results
 ----------
 
+Results' plots from our trainings and evaluations of the BI-CRF-LSTM model on our NCBI-based dataset were stored through the NeuralNetwork's method Training_plots as .png files in the /figures/ data folder.
+
+If you may wish to create plots of the accuracy and losses of your models, please create a /figures folder, too.
 
 
 ## Usage
 ---------
 The program was written so that it can run to distinguish "DISEASE" entities from other entities.  
-The NaiveBayes.py contains our Naive Bayes algorithm, a probabilistic and generative classifier, trained on 
+
+python main_NN.py
+
 ```
-
-
 #### **Recognize disease entities in text documents and labeling them according to the BIO tags**
+
+The NaiveBayes.py contains our Naive Bayes algorithm, a probabilistic and generative classifier, trained on 
 
 
 #### **Interpreting the model's predictions with the LIME and GALE approximation techniques to explain the BI-LSTM CRF model**
 
-> **Important Note:** The pre-trained models  
+
 
