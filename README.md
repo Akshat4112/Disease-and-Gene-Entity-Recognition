@@ -42,8 +42,8 @@ O      O     O      O           O       B-DISEASE     I-DISEASE     I-DISEASE
 
 ```
 After training a model:
-    1. Given a predicition result, evaluate its accuracy and F1 score (confusion matrix). 
-    2. Generate explanations to get both a local and a global linear approximation of the model’s behaviour. 
+1. Given a predicition result, evaluate its accuracy and F1 score (confusion matrix). 
+2. Generate explanations to get both a local and a global linear approximation of the model’s behaviour. 
 
 
 ### Datasets
@@ -93,11 +93,25 @@ Command
 ```
    python main_NN.py
 ```
-**Important Note:** Before running the command make sure that the CSV file with the DataFrame is named and saved correctly as mentioned above in the Dataset paragraph.
+**Important Notes:** 
+Before running the command:
+- Make sure that the CSV file with the DataFrame is named and saved correctly as mentioned above in the [Datasets paragraph](#datasets);
+- Make sure that you have a /data folder in order for the word2idx and the tag2idx features to be saved as pickle files (for the NERExplainerGenerator class); 
+- Make sure that you have a /models folder in order to save the trained models' binaries;
+- Make sure that you have a /figures folder in order to store the accuracy plots .png files.
 
 #### **Interpreting the model's predictions with the LIME and GALE approximation techniques to explain the BI-LSTM CRF model**
 
-
+Command
+```
+   python Explainer.py
+```
+**Important Notes:** 
+1. Only applies after having trained the advanced method with a Bidirectional-LSTM-CRF model (link) so requisites are:
+    1. Having trained a model and saved its binary as .h5 
+    2. Having saved the features word2idx and tag2idx as pickle files
+2. Make sure that you have a: /data/ner-disease/ folder to save the explanatory sentences and words after the LIME linear local approximation
+3. Make sure that the labels correspond to such format: '|B-DISEASE\n' '|I-DISEASE\n' '|O\n' 
 
 ## Contacts
 ------------
