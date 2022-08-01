@@ -107,7 +107,7 @@ Command
    python Explainer.py
 ```
 **Important Notes:** 
-1. Only applies after having trained the advanced method with a [Bidirectional-LSTM-CRF model](#python main_NN.py) so requisites are:
+1. Only applies after having trained the advanced method with a [Bidirectional-LSTM-CRF model](#advanced-method) so requisites are:
     1. Having trained a model and saved its binary as .h5 
     2. Having saved the features word2idx and tag2idx as pickle files
 2. Make sure that you have a: /data/ner-disease/ folder to save the explanatory sentences and words after the LIME linear local approximation
