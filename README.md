@@ -8,12 +8,6 @@ The program has 2 main purposes:
 
 ----------
 
-## Contacts
-------------
-
-If you have any questions or problems, please e-mail **st180429@stud.uni-stuttgart.de , st179785@stud.uni-stuttgart.de**
-
-
 ## Installation
 ---------------
 
@@ -51,14 +45,15 @@ After training a model:
     1. Given a predicition result, evaluate its accuracy and F1 score (confusion matrix). 
     2. Generate explanations to get both a local and a global linear approximation of the model’s behaviour. 
 
+
 ### Datasets
 ------------
 
 The dataset used to train our models was provided to us internally from the University stuff, for the purpose of developing this project.
 
-If you may wish to use the code you can provide a dataset with the same format so that it will be processed regularly and written as a pandas DataFrame in a CSV file. 
-The format we refer to follows roughly the CoNLL 2003 format for NER task (https://aclanthology.org/W03-0419.pdf): the data file must contain one word per line. At the end of each line a tag must state whether the current word is part of a named entity or not. In our case the fields in a line must be two, the word and its entity tag. The part of-speech tag and the chunk tag are not part of the required fields. It is essential that the two required fields are tab-separated.
+**If you may wish to use the code you can provide a dataset with the same format so that it will be processed regularly and written as a pandas DataFrame in a CSV file for the later models' trainings. Dump such DataFrame in a /data folder and name it "dfnew.csv"**
 
+The format we refer to follows roughly the CoNLL 2003 format for NER task (https://aclanthology.org/W03-0419.pdf): the data file must contain one word per line. At the end of each line a tag must state whether the current word is part of a named entity or not. In our case the fields in a line must be two, the word and its entity tag. The part of-speech tag and the chunk tag are not part of the required fields. It is essential that the two required fields are tab-separated.
 
 
 ### Results
@@ -94,14 +89,17 @@ To evaluate the Naive Nayes classifier's B, I, O labels predictions.
 
 ##### _An advanced method with a Bidirectional-LSTM-CRF model with BioBERT Embeddings_
 
+Command
 ```
    python main_NN.py
 ```
-
-
-
+**Important Note:** Before running the command make sure that the CSV file with the DataFrame is named and saved correctly as mentioned above in the Dataset paragraph.
 
 #### **Interpreting the model's predictions with the LIME and GALE approximation techniques to explain the BI-LSTM CRF model**
 
 
 
+## Contacts
+------------
+
+If you have any questions or problems, please e-mail **st180429@stud.uni-stuttgart.de , st179785@stud.uni-stuttgart.de**
