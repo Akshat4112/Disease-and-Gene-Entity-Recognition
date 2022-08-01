@@ -62,12 +62,11 @@ The format we refer to follows roughly the CoNLL 2003 format for NER task (https
 Results' plots from our trainings and evaluations of the BI-CRF-LSTM model on our NCBI-based dataset were stored through the NeuralNetwork's method Training_plots as .png files in the /figures/ data folder.
 
 Comparison of precision, recall and F1 score ( 2*((precision* recall)/(precision+recall)) ) between the baseline Naive Bayes-based model and the Bi-LSTM-CRF model with BioBERT embeddings both trained on the NCBI-based dataset is displayed here:
-             
-    | | Precision | Recall | F1-score |
-    --- | --- | --- | --- |
-    Naive Bayes model | 0.45 | 0.33 | 0.38 |
-    Bi-LSTM-CRF model | 0.98 | 0.98 | 0.98 |
 
+                  | Precision       | Recall          | F1-Score        |
+| --------------- | --------------- | --------------- | --------------- |
+| Naive Bayes     | 0.45            | 0.33            | 0.38            |
+| Bi-LSTM-CRF     | 0.98            | 0.98            | 0.98            |
 
 
 If you may wish to create plots of the accuracy and losses of your models, please create a /figures folder, too.
