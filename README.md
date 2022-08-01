@@ -51,7 +51,7 @@ After training a model:
     1. Given a predicition result, evaluate its accuracy and F1 score (confusion matrix). 
     2. Generate explanations to get both a local and a global linear approximation of the model’s behaviour. 
 
-## Datasets
+### Datasets
 ------------
 
 The dataset used to train our models was provided to us internally from the University stuff, for the purpose of developing this project.
@@ -61,7 +61,7 @@ The format we refer to follows roughly the CoNLL 2003 format for NER task (https
 
 
 
-## Results
+### Results
 ----------
 
 Results' plots from our trainings and evaluations of the BI-CRF-LSTM model on our NCBI-based dataset were stored through the NeuralNetwork's method Training_plots as .png files in the /figures/ data folder.
@@ -69,7 +69,7 @@ Results' plots from our trainings and evaluations of the BI-CRF-LSTM model on ou
 If you may wish to create plots of the accuracy and losses of your models, please create a /figures folder, too.
 
 
-## Usage
+### Usage
 ---------
 The program was written so that it can run to distinguish "DISEASE" entities from other entities.  
 
