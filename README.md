@@ -8,12 +8,13 @@ The program has 2 main purposes:
 
 ----------
 
-Contacts
+## Contacts
 ------------
 
 If you have any questions or problems, please e-mail **st180429@stud.uni-stuttgart.de , st179785@stud.uni-stuttgart.de**
 
-Installation
+
+## Installation
 ---------------
 
 This program was developed using Python version 3.9.6 and was tested on Linux and Windows system.
@@ -30,13 +31,25 @@ If GPU is not available, tensorflow CPU can be used instead:
 3. **Sklearn** 0.21.0:
 4. **NLTK** 3.2.5:
 5. **Eli5**:
-
 Currently it requires scikit-learn 0.18+
 > conda install -c conda-forge eli5
 
-Usage
+
+## Task
+---------------
+
+Given a sentence, provide a "B-DISEASE" or "I-DISEASE" tag for each disease entity and "O" for all the remaining tokens. A classical application is Named Entity Recognition (NER) for Clinical or Biomedical NLP. Here is an example:
+
+```
+John   has   been   diagnosed   with    sporadic      T-cell	    leukaemia	
+O      O     O      O           O       B-DISEASE     I-DISEASE     I-DISEASE
+```
+
+
+
+## Usage
 ---------
-The program was written so that it can run for any type of entity. All the entity types presented in the data set must be declared exactly in the "entity_types" file using the following format:
+The program was written so that it can run for any type of entity. All the entity types presented in the data set must be 
 >```
 ><Entity type 1>
 ><Entity type 2>
