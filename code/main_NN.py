@@ -7,24 +7,23 @@ Author: Akshat Gupta
 import pandas as pd
 from DataPreperation import Preprocess
 from EDA_on_Data import EDA
-from TrainNew import NeuralNetwork
+from Train import NeuralNetwork
 
-# train = '../data/ner-disease/train.iob'
-# test = '../data/ner-disease/test.iob' 
-# dev = '../data/ner-disease/dev.iob'
-# dev_predicted = '../data/ner-disease/dev-predicted.iob'
+train = '../data/ner-disease/train.iob'
+test = '../data/ner-disease/test.iob' 
+dev = '../data/ner-disease/dev.iob'
+dev_predicted = '../data/ner-disease/dev-predicted.iob'
 
 
-# preprocess = Preprocess()
-# preprocess.text_to_data(filepath=train)
-# preprocess.preprocess_data()
-# preprocess.create_dataframe()
-# preprocess.dump_csv()
+preprocess = Preprocess()
+preprocess.text_to_data(filepath=train)
+preprocess.preprocess_data()
+preprocess.create_dataframe()
+preprocess.dump_csv()
 
-# eda = EDA()
-# eda.read_csv()
-# eda.EDA()
-
+eda = EDA()
+eda.read_csv()
+eda.EDA()
 
 data = pd.read_csv("../data/dfnew.csv", encoding="latin1").fillna(method="ffill")
 words = list(set(data["Word"].values))

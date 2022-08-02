@@ -76,7 +76,7 @@ To reach such training accuracy (99,82%) and validation accuracy (99,29%) we imp
 
 Command:
 ```
-   python NaiveBayes.py
+   python main_NB.py
 ```
 To run the Naive Bayes classifier.
 
@@ -120,4 +120,3 @@ If you have any questions or problems, please e-mail **st180429@stud.uni-stuttga
 
 ------------
 
-:wave:

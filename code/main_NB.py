@@ -4,15 +4,11 @@ Version: 0.1
 Author: Akshat Gupta
 '''
 
-
 #Import our custom classes for Preprocess, Naive Bayes, and Evaluation
 
 from Preprocess import Preprocess
 from NaiveBayes import NaiveBayes
 from Evaluation import PrecisionRecallEntityLevel, PrecisionRecall, PrecisionRecallEntityLevelGene
-
-# Streamlit is to create the Web App
-import streamlit as st
 
 train = '../data/ner-disease/train.iob'
 test = '../data/ner-disease/test.iob' 
@@ -61,16 +57,18 @@ for item in Xtest:
 print("Results for Gene Level NER:")
 PrecisionRecallEntityLevelGene(Xtest, y_pred, y_true)
 
-st.title("NER for Disease and Gene")
-raw_text = st.text_area("Your Text","Enter Text Here")
-tokens = raw_text.split()
-custom_pred = []
+# For later use
+# ------------------------------------------------------
+# st.title("NER for Disease and Gene")
+# raw_text = st.text_area("Your Text","Enter Text Here")
+# tokens = raw_text.split()
+# custom_pred = []
 
-if (st.button('Submit')):
-    for item in tokens:
-        pred = nb.MultinomialNBTest(item)
-        custom_pred.append(pred)
-    st.text(custom_pred)
+# if (st.button('Submit')):
+#     for item in tokens:
+#         pred = nb.MultinomialNBTest(item)
+#         custom_pred.append(pred)
+#     st.text(custom_pred)
 
 
 
