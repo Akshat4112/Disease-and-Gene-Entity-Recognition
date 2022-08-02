@@ -36,26 +36,27 @@ class NERExplainerGenerator(object):
             return p[:,word_index,:]
         return predict_func
 
-
-model  = keras.models.load_model('../models/ckpt1658660485.8331368.h5')
-with open('../data/word2idx.pkl', "rb") as f:
-    word2idx = pickle.load(f)
-
-with open('../data/tag2idx.pkl', "rb") as f1:
-    tag2idx = pickle.load(f1)
-
-max_len = 114
-explainer_generator = NERExplainerGenerator(model, word2idx, tag2idx, max_len)
-word_index = 2
-predict_func = explainer_generator.get_predict_function(word_index=word_index)
-sampler = MaskingTextSampler(
-    replacement="UNK",
-    max_replace=0.7,
-    token_pattern=None,
-    bow=False
-)
-
 def explaination_generator(text):
+
+    model  = keras.models.load_model('../models/ckpt1658660485.8331368.h5')
+    with open('../data/word2idx.pkl', "rb") as f:
+        word2idx = pickle.load(f)
+
+    with open('../data/tag2idx.pkl', "rb") as f1:
+        tag2idx = pickle.load(f1)
+
+    max_len = 114
+    explainer_generator = NERExplainerGenerator(model, word2idx, tag2idx, max_len)
+    word_index = 2
+    predict_func = explainer_generator.get_predict_function(word_index=word_index)
+    sampler = MaskingTextSampler(
+        replacement="UNK",
+        max_replace=0.7,
+        token_pattern=None,
+        bow=False
+    )
+
+
     samples, similarity = sampler.sample_near(text, n_samples=4)
     print("Input is: ",samples)
     print("Fitting Explainer...")
@@ -89,6 +90,7 @@ def explaination_generator(text):
     except Exception as e:
         print(e)
 
+        # Words with negative weights
         # for ite in item['feature_weights']['neg']:
         #     word = ite['feature'].split()
         #     del(word[0])
@@ -99,40 +101,5 @@ def explaination_generator(text):
         #         word_importance["I"].append(word)           
         #     elif item['target'] == '|O\n':
         #         word_importance["O"].append(word)           
-    return word_importance
-
-#Loading the data from dataframe
-df = pd.read_csv('../data/ner-disease/DatasetTrain.csv')
-print(df.head())
-sentences = []
-temp = []
-
-for i in range(len(df['Word']) -1):
-    if df['Sentence'][i] == df['Sentence'][i+1]:
-        temp.append(df['Word'][i])
-    elif df['Sentence'][i] != df['Sentence'][i+1]:
-        sent_temp = ''.join(str(temp))
         
-        sentences.append(sent_temp)
-        temp = []
-    
-    
-# print(sentences) 
-
-df_sents = pd.DataFrame(columns=['sentences'])
-df_sents['sentences'] =  sentences
-df_sents.to_csv('../data/ner-disease/sentences.csv')
-
-words_final = []
-for item in df_sents['sentences']:
-    refined_sentence = ast.literal_eval(item)
-    final_sentece = ' '.join(refined_sentence)
-
-    # text = 'PCR amplification from genomic DNA and automated sequencing of the entire coding region ( 66 exons ) and splice junctions detected 77 mutations ( 85 % ) in 90 A-T chromosomes .'        
-    wi = explaination_generator(final_sentece)
-    print(wi)
-    words_final.append(wi)
-
-words_df = pd.DataFrame(columns=['dicts'])
-words_df['dicts'] = words_final
-words_df.to_csv('../data/ner-disease/words_dicts.csv')
+    return word_importance
