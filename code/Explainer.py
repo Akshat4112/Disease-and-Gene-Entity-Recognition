@@ -13,8 +13,11 @@ import eli5
 import pandas as pd
 import ast
 
+'''
+To Create NER Explainer using LIME
+'''
 class NERExplainerGenerator(object):
-    
+    #Loading model, word2idx, tag2idx, and idx2tag
     def __init__(self, model, word2idx, tag2idx, max_len):
         self.model = model
         self.word2idx = word2idx
@@ -22,6 +25,7 @@ class NERExplainerGenerator(object):
         self.idx2tag = {v: k for k,v in tag2idx.items()}
         self.max_len = max_len
         
+    # Add Padding and UNK token to make data ready for futher process
     def _preprocess(self, texts):
         X = [[self.word2idx.get(w, self.word2idx["UNK"]) for w in t.split()]
              for t in texts]
@@ -29,6 +33,7 @@ class NERExplainerGenerator(object):
                           padding="post", value=self.word2idx["PAD"])
         return X
     
+    # To get prediction from model
     def get_predict_function(self, word_index):
         def predict_func(texts):
             X = self._preprocess(texts)
@@ -36,6 +41,7 @@ class NERExplainerGenerator(object):
             return p[:,word_index,:]
         return predict_func
 
+# To generate explanation for the sentence text
 def explaination_generator(text):
 
     model  = keras.models.load_model('../models/ckpt1658660485.8331368.h5')
@@ -45,6 +51,7 @@ def explaination_generator(text):
     with open('../data/tag2idx.pkl', "rb") as f1:
         tag2idx = pickle.load(f1)
 
+    #Setting explainer properties
     max_len = 114
     explainer_generator = NERExplainerGenerator(model, word2idx, tag2idx, max_len)
     word_index = 2
@@ -56,7 +63,7 @@ def explaination_generator(text):
         bow=False
     )
 
-
+    
     samples, similarity = sampler.sample_near(text, n_samples=4)
     print("Input is: ",samples)
     print("Fitting Explainer...")

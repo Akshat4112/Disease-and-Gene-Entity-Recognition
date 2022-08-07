@@ -6,13 +6,18 @@ Author: Akshat Gupta
 
 import pandas as pd
 
+'''
+To understand data properties
+'''
 class EDA():
     def __init__(self) -> None:
         pass
-
+    
+    #To read CSV
     def read_csv(self):
         self.df = pd.read_csv('../data/dfnew.csv')
 
+    #To get facts about the dataset
     def EDA(self):
         print("Total number of sentences in the dataset: {:,}".format(self.df["Sentence"].nunique()))
         print("Total words in the dataset: {:,}".format(self.df.shape[0]))

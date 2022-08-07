@@ -1,3 +1,9 @@
+''' 
+Project: Explaining LSTM-CRF models based NER Systems
+Version: 0.1
+Author: Akshat Gupta
+'''
+
 # !wget https://setup.johnsnowlabs.com/nlu/colab.sh -O - | bash
 import nlu
 import pandas as pd
@@ -6,6 +12,9 @@ from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+'''
+To create BioBERT Embeddings
+'''
 class BioBERTEmbedding():
     def __init__(self) -> None:
         pass

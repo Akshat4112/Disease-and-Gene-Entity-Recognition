@@ -12,7 +12,11 @@ from tensorflow.keras.utils import pad_sequences
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
+'''
+To create Neural Network architectures
+'''
 class NeuralNetwork(object):
+    #Setting properties to be used in Neural Network
     def __init__(self, data):
         self.n_sent = 1
         self.data = data
@@ -34,6 +38,7 @@ class NeuralNetwork(object):
         except:
             return None
 
+    #To endcode data for training
     def Data_Encoding(self):
         labels = [[s[2] for s in sent] for sent in self.sentences]
         sentences = [" ".join([s[0] for s in sent]) for sent in self.sentences]
@@ -58,6 +63,7 @@ class NeuralNetwork(object):
         self.X_tr, self.X_te, self.y_tr, self.y_te = train_test_split(X, y, test_size=0.2, shuffle=False)
         print("Completed till split")
     
+    #LSTM Model for training
     def LSTM_NN(self):
         wandb.config = {"learning_rate": 0.001,
                         "epochs": 100,
@@ -77,6 +83,7 @@ class NeuralNetwork(object):
         print("Model saved in model directory...")
         return self.history
 
+    #Training Plots for Accuracy and Loss
     def Training_Plots(self):
         history = self.history
         plt.plot(history.history['accuracy'])

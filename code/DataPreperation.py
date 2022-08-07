@@ -9,11 +9,14 @@ from typing_extensions import Self
 import pandas as pd
 import nltk
 
+'''
+To Preprocess the data to create x and y mappings
+'''
 class Preprocess():
     def __init__(self):
         self.data = []
         pass
-        
+    #To read line by line data and create data list
     def text_to_data(self, filepath):
         self.filepath = filepath
         file = open(filepath, 'r')
@@ -21,6 +24,7 @@ class Preprocess():
         for line in file.readlines():
             self.data.append(line)
         
+    #To create x and y mappings of data
     def preprocess_data(self):
         self.X = []
         self.y = []
@@ -33,7 +37,7 @@ class Preprocess():
         print("Preprocess Completed...")
         print("Now Creating Dataframe...")
         
-
+    #To create dataframe with POS tag for words
     def create_dataframe(self):
         self.df = pd.DataFrame(columns=['Sentence', 'Word', 'POS', 'Tag'])
         self.df['Word'] = self.X
@@ -55,10 +59,10 @@ class Preprocess():
         self.dfnew = self.df.copy()
         self.dfnew = self.dfnew.fillna(method="ffill")
         self.dfnew["Sentence"] = self.dfnew["Sentence"].apply(lambda s: s[9:])
-        # dfnew["Sentence"] = dfnew["Sentence"].astype("int32")
         print(self.dfnew.head())
         print("DataFrame Created...")
 
+    #To store csv for the dataframe in data
     def dump_csv(self):
         self.dfnew.to_csv('../data/dfnew.csv')
         print("CSV Dumped in data Directory")
